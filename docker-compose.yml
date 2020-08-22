@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    environment:
+      # SEQ_DB: postgres
+      # SEQ_USER: postgres
+      # SEQ_PW: Elegeonye123
+      # PORT: 5000
+      DATABASE_HOST: host.docker.internal
+    depends_on: 
+      - postgres
+    env_file: config.env
+    
+
+  postgres:
+    image: "postgres"
+    ports:
+    - "5432:5432"
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_HOST: postgres
+      DATABASE_NAME: postgres
+      DATABASE_PASS: Elegeonye123
+      DATABASE_PORT: 5432
+      POSTGRES_PASSWORD: Elegeonye123
+
+
+      

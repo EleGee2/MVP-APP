@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const xss = require('xss-clean');
+const cors = require('cors')
 const userController = require('./controllers/userController.js')
 
 const AppError = require('./utils/appError');
@@ -9,6 +10,7 @@ const AppError = require('./utils/appError');
 const app = express();
 
 // MIDDLEWARES
+app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json());
 

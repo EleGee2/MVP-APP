@@ -2,7 +2,6 @@ const User = require("../userModel");
 const Pool = require("pg").Pool;
 const dotenv = require("dotenv");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
 
 dotenv.config({ path: "./config.env" });
 
@@ -35,7 +34,7 @@ const getUserById = catchAsync(async (request, response, next) => {
 
   pool.query("SELECT * FROM users WHERE id = $1", [id], (error, results) => {
     if (results.rowCount === 0) {
-      return next(new AppError("No document found", 404));
+      throw error
     }
     result = results.rows;
     response.status(200).json({
@@ -56,13 +55,13 @@ const createUser = catchAsync(async (request, response) => {
     [fname, lname, email, phone],
     (error, results) => {
       if (error) {
-        throw error;
+        response.status(400).send(error)
       }
       response.status(201).json({
         status: 'success',
       });
     }
-  );
+  ).catch(error => res.status(400).send(error))
 });
 
 const updateUser = catchAsync(async (request, response) => {
@@ -74,11 +73,11 @@ const updateUser = catchAsync(async (request, response) => {
     [fname, lname, email, phone, id],
     (error, results) => {
       if (error) {
-        throw error;
+        response.status(400).send(error)
       }
       response.status(200).send(`User modified with ID: ${id}`);
     }
-  );
+  ).catch(error => res.status(400).send(error))
 });
 
 const deleteUser = (request, response) => {
@@ -86,7 +85,7 @@ const deleteUser = (request, response) => {
 
   pool.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
     if (error) {
-      throw error;
+      response.status(400).send(error)
     }
     response.status(200).send(`User deleted with ID: ${id}`);
   });

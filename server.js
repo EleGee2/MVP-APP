@@ -12,6 +12,8 @@ const sequelize = new Sequelize(database, username, password, {
   dialect: "postgres",
 });
 
+//const sequelize = new Sequelize(process.env.DATABASE_URL);
+
 sequelize
   .authenticate()
   .then(() => {
