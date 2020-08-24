@@ -4,7 +4,7 @@
     "password": "Elegeonye123",
     "database": "postgres",
     "host": "127.0.0.1",
-    "DATABASE_URL": "postgres://postgres:Elegeonye123@postgres:5432/postgres",
+    "DATABASE_URL": "postgres://postgres:12345@postgres:5432/postgres",
     "dialect": "postgres"
   },
   "test": {
