@@ -6,11 +6,13 @@ const sequelize = new Sequelize("postgres", "postgres", "Elegeonye123", {
 const User = sequelize.define('users', {
   fname: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { isAlpha: true }
   },
   lname: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { isAlpha: true }
   },
   phone: {
     type: Sequelize.STRING,
@@ -23,15 +25,6 @@ const User = sequelize.define('users', {
     unique: true,
     validate: { isEmail: true }
   },
-}, {
-  timestamps: false
 });
-
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log(`Database & tables created!`);
-  });
-
-//console.log(userSchema === sequelize.models.userSchema)
 
 module.exports = User;

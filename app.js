@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 
 // ROUTES
 app.get('/users', userController.getUsers);
-app.get('/users/:id', userController.getUserById)
+app.get('/users/:id', userController.getUser)
 app.post('/users', userController.createUser)
 app.put('/users/:id', userController.updateUser)
 app.delete('/users/:id', userController.deleteUser)

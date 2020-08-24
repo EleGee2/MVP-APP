@@ -1,27 +1,34 @@
+const fs = require('fs')
+const path = require('path')
 const Sequelize = require("sequelize");
-const dotenv = require("dotenv");
 const app = require("./app");
+const env = process.env.NODE_ENV || "development";
+const config = require(`${__dirname}/config.json`)[env];
+const User = require("./userModel");
 
-dotenv.config({ path: "./config.env" });
 
-const database = process.env.DATABASE_NAME
-const username = process.env.DATABASE_USER
-const password  = process.env.DATABASE_PASS
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 
-const sequelize = new Sequelize(database, username, password, {
-  dialect: "postgres",
-});
+console.log(process.env[config.use_env_variable])
 
-//const sequelize = new Sequelize(process.env.DATABASE_URL);
+User.sync()
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been made established successfully..");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database", err);
-  });
+try {
+  sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
+}
 
 //  START SERVER
 const port = process.env.PORT || 5000;
