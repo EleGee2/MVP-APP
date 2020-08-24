@@ -1,5 +1,6 @@
 const User = require("../userModel");
 const Pool = require("pg").Pool;
+
 const dotenv = require("dotenv");
 const catchAsync = require("../utils/catchAsync");
 const { response } = require("../app");
